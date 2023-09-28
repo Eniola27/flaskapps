@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+
+body, h2, p {
+    margin: 0;
+    padding: 0;
+}
+
+/* Center the content vertically and horizontally */
+.parent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Make the container take the full viewport height */
+    text-align: center;
+}
+
+/* Style the container's child elements */
+.row {
+    background-color: #f9f9f9; /* Add background color or use your preferred color */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+}
+
+/* Style the error message and link */
+h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+p {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+a {
+    font-size: 16px;
+    text-decoration: none;
+    color: #007bff; /* Change the link color to your preference */
+    display: block;
+}
+
+a:hover {
+    text-decoration: underline; /* Add underline on hover */
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="parent">
+        <div class="row">
+            <div class="col-md-6">
+                <h1>FLOW</h1>
+                <img src="/static/images/reproductive.avif" alt="Error Image" width="300" height="200">
+                <h2>{{ error }}</h2>
+                <p>Oooops, it appears that the page you tried to visit does not exist</p>
+                <a href="/home">Click on this link to go to the home page</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

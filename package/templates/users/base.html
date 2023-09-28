@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {%block title%}
+         Home page
+        {%endblock%}
+    </title>
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.css" type="text/css">
+    <link rel="stylesheet" href="/static/fontawesome/css/all.css" type="text/css">
+    <link rel="stylesheet" href="/static/animate.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+            /* Reset some default styles for the page */
+body, h1, h2, p {
+    margin: 0;
+    padding: 0;
+}
+
+/* Style the header with navigation */
+header {
+    
+    align-items: center;
+    background-color: lightpink; /* You can choose your own background color */
+    color: white;
+    padding: 10px 20px;
+}
+
+.brand {
+    font-size: 24px;
+}
+
+nav ul {
+    list-style: none;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: white;
+}
+
+/* Style the main content section */
+.main-content {
+    display: flex;
+    padding: 20px;
+}
+
+.left-column {
+    flex: 1;
+}
+
+/* .background-image {
+    background-image: url('/static/images/background.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    height: 400px;
+    background-color: white;
+} */
+
+.right-column {
+    flex: 1;
+    padding: 20px;
+    background-color: white; /* Background color for the right column */
+}
+
+/* Style the buttons */
+.buttons {
+    margin-top: 20px;
+}
+
+button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color:white;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+button a {
+    text-decoration: none;
+    color: white;
+}
+
+/* Style the footer */
+footer {
+    background-color: lightpink; /* Footer background color */
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+footer ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+footer ul li {
+    /* display: inline; */
+    margin-right: 20px;
+}
+
+footer ul li a {
+    text-decoration: none;
+    color: white;
+}
+.vertical-list {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+}
+
+.vertical-list li {
+    margin-bottom: 10px; /* Add spacing between list items */
+}
+.other-info {
+    /* Style other important information here */
+    margin: 20px 0;
+}
+
+.copyright {
+    font-size: 22px;
+}
+
+.back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    display: none;
+    font-weight: bold;
+}
+
+/* Show the back-to-top button when scrolling down */
+body.scrollTop >{
+    display: block;
+}
+
+</style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="brand">
+                        <h1>FLOW</h1>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <nav>
+                        <ul>
+                            <li><a href="/home">Home</a></li>
+                            <li><a href="{{url_for('about_page')}}">About</a></li>
+                            <li><a href="/profile">Profile</a></li>
+                            <li><a href="#">Calculator</a></li>
+                            <li><a href="#">Calendar</a></li>
+                            <li><a href="/login/">Dashboard</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+    <section>
+        {%block content%}
+        <!-- removed the section class main that has the div for img and about flow from here -->
+        {%endblock%}
+
+    </section>
+
+
+
+    <footer>
+            <div class="row">
+                <div class="col-md-3">
+                    <ul>
+                        <li><a href="#">Cycle Tracking</a></li>
+                        <li><a href="#">Predict-Periods</a></li>
+                        <li><a href="#">Ovulation</a></li>
+                        <li><a href="#">Symptoms</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <ul class="vertical-list">
+                        <li><a href="#">Mood/Emotions</a></li>
+                        <li><a href="#">Birth-Control</a></li>
+                            <!-- Add more features as needed -->
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <ul class="vertical-list">
+                        <li><a href="#">Fertility-Awareness</a></li>
+                        <li><a href="#">Health-Insights</a></li>
+                        <li><a href="#">Community and Support</a></li>
+                        <li><a href="#">Data Security and Privacy</a></li>
+                            <!-- Add more features as needed -->
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <div class="other-info">
+                        <!-- Add other important information here -->
+                    </div>
+                </div>
+                <div class="copyright">
+                     Flow &copy 2023
+                    <a href="#top" class="back-to-top">Back to Top</a>
+                </div>
+            </div>
+        
+    </footer>
+    <script type="text/javascript">
+       
+     
+     </script>
+      
+     
+
+
+    
+   </body>
+</html>
