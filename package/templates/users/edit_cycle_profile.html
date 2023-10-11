@@ -1,0 +1,29 @@
+{%extends "users/base.html"%}
+{%block title%}
+edit_profile
+{%endblock%}
+{% block content%}
+<div class="row justify-content-center align_items_center">
+    <div class="col-md-10">
+<form action="" method="post">
+     <div class="form-group">
+        <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+        <label for="periodLength">Period Length (in days)</label>
+        <input class="form-control" type="number" id="periodLength" name="periodLength" value="{{deets.period_length}}" required>
+    </div>
+    <div class="form-group">
+        <label for="cycleLength">Cycle Length (in days)</label>
+        <input class="form-control" type="number" id="cycleLength" name="cycleLength" value="{{deets.cycle_length}}" required>
+    </div>
+    <div class="form-group">
+        <label for="lastPeriod">Last Period Date</label>
+        <input  class="form-control"type="date" id="lastPeriod" value="{{deets.lastperioddate}}" name="lastPeriod" required>
+    </div>
+    <div class="form-group">
+        <textarea name="note" value="{{deets.note}}" class="form-control" placeholder="Enter your note here"></textarea>
+    </div>
+    <button class="btn btn-primary">Update Profile</button>
+</form>
+</div>
+</div>
+{%endblock%}

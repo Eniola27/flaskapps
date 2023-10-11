@@ -5,7 +5,8 @@ login-page
 {% block forform%}
 <div class="reg-form">
     <h2>Log In to Flow</h2>
-    <form>
+    <form action="" method="post">
+        <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
         <div class="form-group">
             <label for="username">Username</label>
             <input type="text" id="username" name="username" class="form-control" required>

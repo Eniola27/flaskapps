@@ -1,0 +1,65 @@
+<div class="row justify-content-center" style="background-color:snow;padding: 3em;border: 2px solid white;border:2px solid palevioletred;">
+    <div class="col-md-4">
+     <div class="sidenav">
+         <div class="mt-4 mb-2 text-center">
+             <img src="#" alt="userpix" class="img-fluid rounded-circle" id="adminPic">
+             <h5 style="color: white;">Username</h5>
+             <p style="color: white;">Admin ID:</p>
+         </div>
+ 
+         <a href="/dashboard" style="background-color: blue;"><i class="fa-solid fa-gauge"></i>&nbsp; &nbsp;DashBoard</a>
+         
+         <button class="dropdown-btn">Account Management
+           <i class="fa fa-caret-down"></i>
+         </button>
+         <div class="dropdown-container">
+           <a href="#">Change Profile Picture</a>
+           <a href="#">Change Password</a>
+         </div>
+ 
+         <button class="dropdown-btn">User Management
+             <i class="fa fa-caret-down"></i>
+           </button>
+           <div class="dropdown-container">
+             <a href="#">Register Admin</a>
+           
+             <a href="#">Admin Records</a>
+             <a href="#">User Records</a>
+           </div>
+ 
+           <button class="dropdown-btn">User Management
+             <i class="fa fa-caret-down"></i>
+           </button>
+           <div class="dropdown-container">
+             <a href="#">Register User</a>
+             <a href="#">user Records</a>
+           </div>
+ 
+           <button class="dropdown-btn">fff
+             <i class="fa fa-caret-down"></i>
+           </button>
+           <div class="dropdown-container">
+             <a href="#">Add Fee</a>
+             <a href="#">Fees Records</a>
+           </div>
+ 
+           <button class="dropdown-btn">Payments Management
+             <i class="fa fa-caret-down"></i>
+           </button>
+           <div class="dropdown-container">
+             <a href='#'>Awaiting Payment Confirmation</a>
+             <a href="#">Confirmed Payments</a>
+             <a href="#">overdue Payments</a>
+             <a href="#">Payments Records</a>
+           </div>
+ 
+           <a href="#" class="btn btn-danger">LogOut</a>                    
+     </div>
+    </div>
+    <div class="col-md-8">
+     <div class="col-md-12">
+         <h2>Welcome {{session.get('userloggedin')}}!</h2>
+         <p>This is your dashboard</p>
+        </div>
+    </div>
+ </div>

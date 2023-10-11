@@ -1,12 +1,40 @@
 {% extends "users/base.html"%}
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-6">
-        <h1>Dashboard</h1>
-        <div class="col-md-8">
-            <h2>Welcome {{session.get('user')}}</h2>
+<!-- Sidebar -->
+<div class="row">
+    <nav class="col-md-3 col-lg-2 d-md-block bg-secondary  sidebar">
+        <div class="position-sticky">
+            <div class="mt-4 mb-2 text-center">
+                <img src="static/images/user.jpg" alt="User" class="img-fluid rounded-circle" id="userPic">
+                <span style="color: wheat;"><br> 
+                    <span></span>
+                </span>
+            </div>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <div id="accountDropdown">
+                        <a href="#" style="text-decoration: none;"> &nbsp;<i class="fa-solid fa-gauge"></i> &nbsp;DashBoard</a>
+                        <a class="nav-link ml-3" href="#" id="changePassLink">Change Password</a>
+                        <a class="nav-link ml-3" href="#" id="editProfileLink">Edit Profile</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <div id="feesDropdown">
+                        <a class="nav-link ml-3" href="#" id="showcalendarLink">Show Calendar</a>
+                        <a class="nav-link ml-3" href="#" id="changepictureLink">Change Profile picture</a>
+                        <a class="nav-link ml-3" href="#" id="editcycleLink">Edit cycle Info</a>
+                        <a class="nav-link ml-3" href="#" id="setting">Settings</a>
+                    </div>
+                </li>
+            </ul>
         </div>
-    </div>
+    </nav>
+    <div class="col-md-9">
+        <h2>Welcome {{user.user_username}}!</h2>
+        <p>This is your dashboard</p>
+       </div>
+
 </div>
+    
 
 {% endblock %}

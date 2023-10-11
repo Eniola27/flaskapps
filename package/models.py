@@ -9,7 +9,7 @@ class User(db.Model):
     user_username =db.Column(db.String(100),nullable=False)
     user_email =db.Column(db.String(120)) 
     user_pwd=db.Column(db.String(120),nullable=False)
-    user_dob=db.Column(db.String(20),nullable=False) 
+    user_dob=db.Column(db.Date(),nullable=False) 
     user_height=db.Column(db.Integer,nullable=True)
     user_weight=db.Column(db.Integer,nullable=True)
     user_datejoined=db.Column(db.DateTime(), default=datetime.utcnow)#default
@@ -25,40 +25,36 @@ class User(db.Model):
 class CycleEntry(db.Model):
     entry_id=db.Column(db.Integer, autoincrement=True,primary_key=True)
     cyc_user_id=db.Column(db.Integer(),db.ForeignKey("user.user_id"),nullable=False)
-    cyc_sys_id=db.Column(db.Integer(),db.ForeignKey("symptomstracking.symptom_id"),nullable=False)
-    start_date=db.Column(db.Date(), nullable=False)
-    end_date=db.Column(db.Date(), nullable=False)
-    cycle_length=db.Column(db.Integer,nullable=False)
-    period_length=db.Column(db.Integer,nullable=False)
+    cycle_length=db.Column(db.Integer,nullable=False,default=7,server_default="7")
+    period_length=db.Column(db.Integer,nullable=False,default=28, server_default="28")
+    lastperioddate=db.Column(db.Date(),nullable=False)
     note=db.Column(db.Text())
     created_at=db.Column(db.DateTime(), default=datetime.utcnow)
-    cycdeets=db.relationship('User',back_populates='cycdeets')
-    cycsym=db.relationship('SymptomsTracking',back_populates='cycsym')
-    cycmood=db.relationship('MoodTable',back_populates='cycmood',cascade='all,delete-orphan')
-    cycovul=db.relationship('Ovulation',back_populates='cycovul',cascade='all,delete-orphan')
+    cycdeets=db.relationship('User',back_populates='userdeets')
+    cycmood=db.relationship('MoodTable',back_populates='moodcyc',cascade='all,delete-orphan')
+    cycovul=db.relationship('Ovulation',back_populates='ovulcyc',cascade='all,delete-orphan')
 
 
 class SymptomsTracking(db.Model):
     symptom_id=db.Column(db.Integer(), autoincrement=True,primary_key=True)
-    symptom_type=db.Column(db.String(70),nullable=False)
+    symptom_type=db.Column(db.String(70),nullable=True)
     Severity=db.Column(db.Integer(),nullable=True)
     recorded_at=db.Column(db.DateTime(),default=datetime.utcnow)
     sys_user_id=db.Column(db.Integer(),db.ForeignKey("user.user_id"),nullable=False) 
-    sypdeets=db.relationship('User',back_populates='sypdeets')
-    cycent=db.relationship('CycleEntry',back_populates='cycent',cascade='all,delete-orphan')
-    symmed=db.relationship('Medication',back_populates='symmed',cascade='all,delete-orphan')
+    sypdeets=db.relationship('User',back_populates='usersyp')
+    symmed=db.relationship('Medication',back_populates='medsym',cascade='all,delete-orphan')
 
 
 class MoodTable(db.Model):
     mood_id=db.Column(db.Integer(), autoincrement=True,primary_key=True)
-    mood_entry_id=db.Column(db.Integer(),db.ForeignKey("cycleentry.entry_id"),nullable=False)
-    date_recorded=db.Column(db.DateTime(), default=datetime.utcnow)
+    mood_entry_id=db.Column(db.Integer(),db.ForeignKey("cycle_entry.entry_id"),nullable=False)
+    date_recorded=db.Column(db.DateTime(),default=datetime.utcnow)
     mood_swing=db.Column(db.Integer())
     mood_name=db.Column(db.String(100))
     user_id=db.Column(db.Integer,db.ForeignKey("user.user_id"),nullable=False)
     track_id=db.Column(db.Integer,)
-    mooddeets=db.relationship('User',back_populates='mooddeets')
-    moodent=db.relationship('CycleEntry',back_populates='moodent')
+    mooddeets=db.relationship('User',back_populates='usermood')
+    moodcyc=db.relationship('CycleEntry',back_populates='cycmood')
 
 
 class Ovulation(db.Model):
@@ -66,30 +62,30 @@ class Ovulation(db.Model):
     user_id=db.Column(db.Integer(),db.ForeignKey("user.user_id"),nullable=False)
     start_date=db.Column(db.DateTime(), default=datetime.utcnow)
     end_date=db.Column(db.DateTime(), default=datetime.utcnow)
-    ovul_entry_id=db.Column(db.Integer,db.ForeignKey("cycleentry.entry_id"),nullable=False)
-    ovuldeets=db.relationship('User',back_populates='ovuldeets')
-    ovulent=db.relationship('CycleEntry',back_populates='ovulent') 
+    ovul_entry_id=db.Column(db.Integer,db.ForeignKey("cycle_entry.entry_id"),nullable=False)
+    ovuldeets=db.relationship('User',back_populates='userovul')
+    ovulcyc=db.relationship('CycleEntry',back_populates='cycovul')
 
 
 class Medication(db.Model):
     med_id=db.Column(db.Integer(),autoincrement=True,primary_key=True)
-    symptom_id=db.Column(db.Integer(),db.ForeignKey("symptomstracking.symptom_id"),nullable=False)
+    symptom_id=db.Column(db.Integer(),db.ForeignKey("symptoms_tracking.symptom_id"),nullable=False)
     med_name=db.Column(db.String(50))
     dosage=db.Column(db.String(50))
     taken_at=db.Column(db.DateTime(),default=datetime.utcnow)
     medication=db.Column(db.String(100))
-    med_user_id=db.Column(db.Integer(),db.ForeignKey("user.user_id"),nullable=False)
-    meddeets=db.relationship('User',back_populates='meddeets')
-    medsym=db.relationship('symptomsTracking',back_populates='medsym')
+    user_id=db.Column(db.Integer(),db.ForeignKey("user.user_id"),nullable=False)
+    meddeets=db.relationship('User',back_populates='usermed')
+    medsym=db.relationship('SymptomsTracking',back_populates='symmed')
 
 
 class FamilyPlanning(db.Model):
     familyplan_id=db.Column(db.Integer(),autoincrement=True,primary_key=True)
-    fam_user_id=db.Column(db.Integer(),db.ForeignKey("user.user_id"),nullable=False)
+    user_id=db.Column(db.Integer(),db.ForeignKey("user.user_id"),nullable=False)
     planning_type=db.Column(db.String(255),nullable=False)
     start_date=db.Column(db.DateTime(), default=datetime.utcnow)
     end_date=db.Column(db.DateTime(), default=datetime.utcnow)
-    plandeets=db.relationship('User',back_populates='plandeets')
+    plandeets=db.relationship('User',back_populates='userplan')
 
 
 class Admin(db.Model):

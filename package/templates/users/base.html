@@ -132,7 +132,7 @@ footer ul li a {
     font-size: 22px;
 }
 
-.back-to-top {
+/* .back-to-top {
     position: fixed;
     bottom: 20px;
     right: 20px;
@@ -142,13 +142,104 @@ footer ul li a {
     text-decoration: none;
     display: none;
     font-weight: bold;
+} */
+.sidenav {
+            height: 100%;
+            width: 203px;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #111;
+            overflow-x: hidden;
+            padding-top: 20px;
+            }
+/* Style the sidenav links and the dropdown button */
+.sidenav a, .dropdown-btn {
+            padding: 6px 8px 6px 16px;
+            text-decoration: none;
+            font-size: 13px;
+            color: rgb(250, 244, 244);
+            display: block;
+            border: none;
+            background: none;
+            width:100%;
+            text-align: left;
+            cursor: pointer;
+            outline: none;
+            }
+
+        /* On mouse-over */
+        .sidenav a:hover, .dropdown-btn:hover {
+            color: #7c23f0;
+            }
+            body, h1, h2, ul, li, p {
+    margin: 0;
+    padding: 0;
 }
 
-/* Show the back-to-top button when scrolling down */
-body.scrollTop >{
-    display: block;
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
 }
 
+
+main {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profile-header h1 {
+    font-size: 24px;
+}
+
+.profile-info, .cycle-info {
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+}
+
+.profile-info h2, .cycle-info h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+ul {
+    list-style-type: none;
+}
+
+ul li {
+    margin-bottom: 10px;
+}
+
+a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+
+/* Media queries for responsiveness */
+@media screen and (max-width: 600px) {
+    main {
+        padding: 10px;
+    }
+}
 </style>
 </head>
 <body>
@@ -163,12 +254,21 @@ body.scrollTop >{
                 <div class="col-md-6">
                     <nav>
                         <ul>
+                            {% if session['userloggedin']%}
                             <li><a href="/home">Home</a></li>
                             <li><a href="{{url_for('about_page')}}">About</a></li>
                             <li><a href="/profile">Profile</a></li>
-                            <li><a href="#">Calculator</a></li>
-                            <li><a href="#">Calendar</a></li>
-                            <li><a href="/login/">Dashboard</a></li>
+                            <li><a href="/dashboard">Dashboard</a></li>
+                            <li><a href="/calculator">Calculator</a></li>
+                            <li><a href="/calendar">Calendar</a></li>
+                            <li><a href="/logout">Logout</a></li>
+                        
+                            {% else %}
+                            <li><a href="/home">Home</a></li>
+                            <li><a href="/login/">Login</a></li>
+                            <li><a href="{{url_for('about_page')}}">About</a></li>
+                            {% endif %}
+
                         </ul>
                     </nav>
                 </div>
@@ -178,6 +278,16 @@ body.scrollTop >{
 
 
     <section>
+        {% set m=get_flashed_messages(with_categories=True)%}
+                {%if m%}
+                {%for cat,msg in m%}
+                {%if cat == 'error'%}
+                <div class='alert alert-danger text-info'>{{msg}}</div>
+                {%else%}
+                <div class='alert alert-success text-info'>{{msg}}</div>
+                {%endif%}
+                {%endfor%}
+                {%endif%}
         {%block content%}
         <!-- removed the section class main that has the div for img and about flow from here -->
         {%endblock%}
@@ -219,14 +329,30 @@ body.scrollTop >{
                 </div>
                 <div class="copyright">
                      Flow &copy 2023
-                    <a href="#top" class="back-to-top">Back to Top</a>
                 </div>
             </div>
         
     </footer>
+    <script src="static/script/jquery.min.js"></script>
     <script type="text/javascript">
-       
-     
+
+        $(document).ready(function() {
+        //* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+        var dropdown = document.getElementsByClassName("dropdown-btn");
+        var i;
+
+        for (i = 0; i < dropdown.length; i++) {
+        dropdown[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var dropdownContent = this.nextElementSibling;
+        if (dropdownContent.style.display === "block") {
+            dropdownContent.style.display = "none";
+            } else {
+                dropdownContent.style.display = "block";
+            }
+        });
+        }
+    })
      </script>
       
      
