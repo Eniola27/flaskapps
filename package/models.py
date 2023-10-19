@@ -12,6 +12,7 @@ class User(db.Model):
     user_dob=db.Column(db.Date(),nullable=False) 
     user_height=db.Column(db.Integer,nullable=True)
     user_weight=db.Column(db.Integer,nullable=True)
+    user_pix=db.Column(db.String(120),nullable=True) 
     user_datejoined=db.Column(db.DateTime(), default=datetime.utcnow)#default
     #relationships
     userdeets=db.relationship('CycleEntry',back_populates='cycdeets',cascade='all, delete-orphan')
@@ -39,22 +40,24 @@ class SymptomsTracking(db.Model):
     symptom_id=db.Column(db.Integer(), autoincrement=True,primary_key=True)
     symptom_type=db.Column(db.String(70),nullable=True)
     Severity=db.Column(db.Integer(),nullable=True)
-    recorded_at=db.Column(db.DateTime(),default=datetime.utcnow)
+    recorded_at=db.Column(db.Date())
     sys_user_id=db.Column(db.Integer(),db.ForeignKey("user.user_id"),nullable=False) 
     sypdeets=db.relationship('User',back_populates='usersyp')
     symmed=db.relationship('Medication',back_populates='medsym',cascade='all,delete-orphan')
+    sypmood=db.relationship('MoodTable',back_populates='moodsyp',cascade='all,delete-orphan')
 
 
 class MoodTable(db.Model):
     mood_id=db.Column(db.Integer(), autoincrement=True,primary_key=True)
     mood_entry_id=db.Column(db.Integer(),db.ForeignKey("cycle_entry.entry_id"),nullable=False)
-    date_recorded=db.Column(db.DateTime(),default=datetime.utcnow)
-    mood_swing=db.Column(db.Integer())
+    date_recorded=db.Column(db.Date())
+    mood_swing=db.Column(db.Enum('1','0'))
     mood_name=db.Column(db.String(100))
     user_id=db.Column(db.Integer,db.ForeignKey("user.user_id"),nullable=False)
-    track_id=db.Column(db.Integer,)
+    symptom_id=db.Column(db.Integer(),db.ForeignKey("symptoms_tracking.symptom_id"),nullable=False)
     mooddeets=db.relationship('User',back_populates='usermood')
     moodcyc=db.relationship('CycleEntry',back_populates='cycmood')
+    moodsyp=db.relationship('SymptomsTracking',back_populates='sypmood')
 
 
 class Ovulation(db.Model):
@@ -72,8 +75,7 @@ class Medication(db.Model):
     symptom_id=db.Column(db.Integer(),db.ForeignKey("symptoms_tracking.symptom_id"),nullable=False)
     med_name=db.Column(db.String(50))
     dosage=db.Column(db.String(50))
-    taken_at=db.Column(db.DateTime(),default=datetime.utcnow)
-    medication=db.Column(db.String(100))
+    taken_at=db.Column(db.Date())
     user_id=db.Column(db.Integer(),db.ForeignKey("user.user_id"),nullable=False)
     meddeets=db.relationship('User',back_populates='usermed')
     medsym=db.relationship('SymptomsTracking',back_populates='symmed')
@@ -83,8 +85,8 @@ class FamilyPlanning(db.Model):
     familyplan_id=db.Column(db.Integer(),autoincrement=True,primary_key=True)
     user_id=db.Column(db.Integer(),db.ForeignKey("user.user_id"),nullable=False)
     planning_type=db.Column(db.String(255),nullable=False)
-    start_date=db.Column(db.DateTime(), default=datetime.utcnow)
-    end_date=db.Column(db.DateTime(), default=datetime.utcnow)
+    start_date=db.Column(db.Date())
+    end_date=db.Column(db.Date())
     plandeets=db.relationship('User',back_populates='userplan')
 
 

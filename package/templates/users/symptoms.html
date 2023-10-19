@@ -1,0 +1,21 @@
+{%extends "users/base.html"%}
+{%block title%}
+symptoms
+{%endblock%}
+{% block content%}
+    <form method="post">
+        <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+        <h2>select Symptoms from the checkboxes:</h2>
+        <label for="cramps_checkbox"><input type="checkbox" name="symptoms_checkbox" value="cramps" id="cramps_checkbox"> Cramps</label><br>
+        <label for="bloating_checkbox"><input type="checkbox" name="symptoms_checkbox" value="bloating" id="bloating_checkbox"> Bloating</label><br>
+        <label for="headache_checkbox"><input type="checkbox" name="symptoms_checkbox" value="headache" id="headache_checkbox"> Headache</label><br>
+        <label for="mood_swings_checkbox"><input type="checkbox" name="symptoms_checkbox" value="mood_swings" id="mood_swings_checkbox"> Mood Swings</label><br>
+        <label for="fatigue_checkbox"><input type="checkbox" name="symptoms_checkbox" value="fatigue" id="fatigue_checkbox"> Fatigue</label><br>
+        <label for="back_pain_checkbox"><input type="checkbox" name="symptoms_checkbox" value="back_pain" id="back_pain_checkbox"> Back Pain</label><br>
+        <label for="acne_checkbox"><input type="checkbox" name="symptoms_checkbox" value="acne" id="acne_checkbox"> Acne</label><br>
+        <label for="nausea_checkbox"><input type="checkbox" name="symptoms_checkbox" value="nausea" id="nausea_checkbox"> Nausea</label><br>
+
+        <button class="btn btn-primary">Submit</button>
+
+    </form>
+{%endblock%}

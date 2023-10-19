@@ -21,15 +21,15 @@ body, h1, h2, p {
 
 /* Style the header with navigation */
 header {
-    
     align-items: center;
     background-color: lightpink; /* You can choose your own background color */
     color: white;
     padding: 10px 20px;
 }
 
-.brand {
-    font-size: 24px;
+.brand h1 {
+    font-size: 30px;
+    font-family: cursive;
 }
 
 nav ul {
@@ -39,11 +39,14 @@ nav ul {
 nav ul li {
     display: inline;
     margin-right: 20px;
+    font-family:Georgia, 'Times New Roman', Times, serif ;
+    font-size: small;
 }
 
 nav a {
     text-decoration: none;
     color: white;
+    transition: color 0.5s;
 }
 
 /* Style the main content section */
@@ -248,7 +251,7 @@ a:hover {
             <div class="row">
                 <div class="col-md-6">
                     <div class="brand">
-                        <h1>FLOW</h1>
+                        <h1 id="brand">FLOW</h1>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -259,7 +262,6 @@ a:hover {
                             <li><a href="{{url_for('about_page')}}">About</a></li>
                             <li><a href="/profile">Profile</a></li>
                             <li><a href="/dashboard">Dashboard</a></li>
-                            <li><a href="/calculator">Calculator</a></li>
                             <li><a href="/calendar">Calendar</a></li>
                             <li><a href="/logout">Logout</a></li>
                         
@@ -300,32 +302,31 @@ a:hover {
             <div class="row">
                 <div class="col-md-3">
                     <ul>
-                        <li><a href="#">Cycle Tracking</a></li>
-                        <li><a href="#">Predict-Periods</a></li>
-                        <li><a href="#">Ovulation</a></li>
-                        <li><a href="#">Symptoms</a></li>
+                        <li>Cycle Tracking</li>
+                        <li>Predict-Periods</li>
+                        <li>Ovulation</li>
+                        <li>Symptoms</li>
                     </ul>
                 </div>
                 <div class="col-md-3">
                     <ul class="vertical-list">
-                        <li><a href="#">Mood/Emotions</a></li>
-                        <li><a href="#">Birth-Control</a></li>
+                        <li>Mood/Emotions</li>
+                        <li>Birth-Control</li>
+                        <li>Mood/Emotions</li>
+                        <li>Birth-Control</li>
                             <!-- Add more features as needed -->
                     </ul>
                 </div>
                 <div class="col-md-3">
                     <ul class="vertical-list">
-                        <li><a href="#">Fertility-Awareness</a></li>
-                        <li><a href="#">Health-Insights</a></li>
-                        <li><a href="#">Community and Support</a></li>
-                        <li><a href="#">Data Security and Privacy</a></li>
+                        <li>Fertility-Awareness</li>
+                        <li>Health-Insights</li>
+                        <li>Community and Support</li>
+                        <li>Data Security and Privacy</li>
                             <!-- Add more features as needed -->
                     </ul>
                 </div>
-                <div class="col-md-3">
-                    <div class="other-info">
-                        <!-- Add other important information here -->
-                    </div>
+                
                 </div>
                 <div class="copyright">
                      Flow &copy 2023
@@ -335,24 +336,24 @@ a:hover {
     </footer>
     <script src="static/script/jquery.min.js"></script>
     <script type="text/javascript">
+ // JavaScript logic to generate a full-year calendar
+ const calendarBody = document.getElementById("calendar-body");
+        const year = 2023; // Set the desired year
 
-        $(document).ready(function() {
-        //* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
-        var dropdown = document.getElementsByClassName("dropdown-btn");
-        var i;
+        for (let month = 1; month <= 12; month++) {
+            const daysInMonth = new Date(year, month, 0).getDate();
 
-        for (i = 0; i < dropdown.length; i++) {
-        dropdown[i].addEventListener("click", function() {
-        this.classList.toggle("active");
-        var dropdownContent = this.nextElementSibling;
-        if (dropdownContent.style.display === "block") {
-            dropdownContent.style.display = "none";
-            } else {
-                dropdownContent.style.display = "block";
+            // Create a row for each day in the month
+            let row = "<tr>";
+            for (let day = 1; day <= daysInMonth; day++) {
+                row += `<td>${day}</td>`;
             }
-        });
+            row += "</tr>";
+
+            // Add the row to the calendar
+            calendarBody.innerHTML += row;
         }
-    })
+   
      </script>
       
      

@@ -1,0 +1,28 @@
+{%extends "users/base.html"%}
+{%block content%}
+<main>
+    <div class="plan-header">
+    </div>
+    <div class="plan-info">
+        <h4>Planning Information</h4>
+        {%if famplan%}
+        {% for p in famplan %}
+        <h3>Family Planning {{loop.index}}</h3>
+        <ul>
+            <li><strong>Planning Type:</strong>{{ p.planning_type }}</li>
+            <li><strong>Start Date:</strong>{{ p.start_date }}</li>
+            <li><strong>End Date:</strong>{{ p.end_date }}</li>
+            
+        </ul>
+        {% endfor %}
+        {%else%}
+        <div class="alert alert-warning">
+            <p>No Plan Info Added Yet</p>
+        </div>
+        <a href="{{url_for('add_family_planning',id=user.user_id)}}">Add Plan</a>
+        {%endif%}
+    </div>
+</main>
+
+
+{%endblock%}

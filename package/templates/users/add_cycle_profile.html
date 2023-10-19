@@ -9,27 +9,26 @@ edit_profile
      <div class="form-group">
         <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
         <label for="periodLength">Period Length (in days)</label>
-        <input class="form-control" type="number" id="periodLength" name="periodLength" value="{{deets.period_length}}" required>
+        <input class="form-control" type="number" id="periodLength" name="periodLength" required>
     </div>
     <div class="form-group">
         <label for="cycleLength">Cycle Length (in days)</label>
-        <input class="form-control" type="number" id="cycleLength" name="cycleLength" value="{{deets.cycle_length}}" required>
+        <input class="form-control" type="number" id="cycleLength" name="cycleLength" required>
     </div>
     <div class="form-group">
         <label for="lastPeriod">Last Period Date</label>
-        <input  class="form-control"type="date" id="lastPeriod" value="{{deets.lastperioddate}}" name="lastPeriod" required>
+        <input  class="form-control"type="date" id="lastPeriod" name="lastPeriod" required>
     </div>
     <div class="form-group">
-        <textarea name="note" value="{{deets.note}}" class="form-control" placeholder="Enter your note here">Note</textarea>
+        <textarea name="note" class="form-control" placeholder="Enter your note here"></textarea>
     </div>
     <div class="form-group">
         <label for="symptoms">Symptom</label>
-        <input  class="form-control"type="text" id="symptoms" name="symptoms" value="{{symp.symptom_type}}" required>
+        <input  class="form-control"type="text" id="symptoms" name="symptoms" required>
     </div>
     <div class="form-group">
-        <label for="numbers">Choose a severity of symptoms:</label>
+        <label for="numbers">Choose a severity of symptoms(in percentage):</label>
         <select id="numbers" name="numbers">
-            <option value="{{symp.Severity}}" selected="selected">{{symp.Severity}}</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -44,22 +43,22 @@ edit_profile
     </div>
     <div class="form-group">
         <label for="daterecorded">Date of symptom:</label>
-        <input  class="form-control"type="date" id="date" name="daterecorded" value="{{symp.recorded_at}}" required>
+        <input  class="form-control"type="date" id="date" name="daterecorded" required>
     </div>
     <div class="form-group">
         <label for="mood">Type of mood:</label>
-        <input  class="form-control"type="text" id="mood" name="mood" value="{{mood.mood_name}}" required>
+        <input  class="form-control"type="text" id="mood" name="mood" required>
     </div>
     <div class="form-group">
         <label for="moodSwing">Mood Swing:</label>
-        <input type="text" id="moodSwing" name="moodSwing" value="{%if mood.mood_swing=='1'%}Yes{%else %}No{%endif%}" placeholder="Enter YES or NO">
+        <input type="text" id="moodSwing" name="moodSwing" placeholder="Enter YES or NO">
     </div>
     <div class="form-group">
         <label for="daterecord">Date of mood:</label>
-        <input  class="form-control"type="date" id="date" name="daterecord" value="{{mood.date_recorded}}" required>
+        <input  class="form-control"type="date" id="date" name="daterecord" required>
     </div>
     
-    <button class="form-control btn-primary">Update Profile</button>
+    <button class="btn btn-primary">Add Profile</button>
 </form>
 </div>
 </div>

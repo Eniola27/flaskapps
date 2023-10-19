@@ -1,0 +1,25 @@
+{%extends "users/base.html"%}
+{%block content%}
+<main>
+    <div class="med-header">
+    </div>
+    <div class="med-info">
+        <h5>Medication</h5>
+        {%if med%}
+        <ul>
+            <li><strong>Med Name:</strong>{{med.med_name}}</li>
+            <li><strong>Dosage:</strong>{{med.dosage}}tablets</li>
+            <li><strong>Taken at:</strong>{{med.taken_at}}</li>
+        </ul>
+        {%else%}
+        <div class="alert alert-warning">
+            <p>No medication added yet</p>
+        </div>
+        <a href="{{url_for('add_medication',id=user.user_id)}}">Add Medication</a>
+        {%endif%}
+        
+    </div>
+</main>
+
+
+{%endblock%}

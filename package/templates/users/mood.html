@@ -1,0 +1,70 @@
+{%extends "users/base.html"%}
+{%block title%}
+mood
+{%endblock%}
+{% block content%}
+    <h1>Mood Tracker</h1>
+    <form action="" method="post">
+        <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+        <h4>Select Your Mood:</h4>
+        <div>
+            <label>
+                <input type="radio" name="mood" value="happy"> Happy
+            </label>
+        </div>
+        <div>
+            <label>
+                <input type="radio" name="mood" value="sad"> Sad
+            </label>
+        </div>
+        <div>
+            <label>
+                <input type="radio" name="mood" value="angry"> Angry
+            </label>
+        </div>
+        <div>
+            <label>
+                <input type="radio" name="mood" value="calm"> Calm
+            </label>
+        </div>
+        <div>
+            <label>
+                <input type="radio" name="mood" value="excited"> Excited
+            </label>
+        </div>
+        <div>
+            <label>
+                <input type="radio" name="mood" value="anxious"> Anxious
+            </label>
+        </div>
+        <div>
+            <label>
+                <input type="radio" name="mood" value="content"> Content
+            </label>
+        </div>
+        <div>
+            <label>
+                <input type="radio" name="mood" value="relaxed"> Relaxed
+            </label>
+        </div>
+        <div>
+            <label>
+                <input type="radio" name="mood" value="frustrated"> Frustrated
+            </label>
+        </div>
+        <div>
+            <label>
+                <input type="radio" name="mood" value="energetic"> Energetic
+            </label>
+        </div>
+        <div>
+            <label>
+                <input type="radio" name="mood" value="stressed"> Stressed
+            </label>
+        </div>
+
+        <!-- Add more mood options as needed -->
+
+        <button class="btn btn-primary">Submit</button>
+    </form>
+    {%endblock%}

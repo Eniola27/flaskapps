@@ -26,11 +26,13 @@ def login():
                 session['userloggedin'] =deets.user_id
                 return redirect("/dashboard")
             else:
-                flash("Invalid login,try again")
+                flash("Invalid login,try again",category="error")
                 return redirect("/login/")
         else:
-            flash("Invalid login,try again")
+            flash("Invalid login,try again",category="error")
             return redirect("/login/")
+
+
 
 @app.route("/register",methods=['POST','GET'])
 def register():
@@ -80,30 +82,82 @@ def profile():
     userid=session.get('userloggedin')
     user=db.session.query(User).filter(User.user_id==userid).first()
     cycle=db.session.query(CycleEntry).filter(CycleEntry.cyc_user_id==userid).first()
-    return render_template("users/profile.html",cycle=cycle,userid=userid,user=user)
+    symptoms=db.session.query(SymptomsTracking).filter(SymptomsTracking.sys_user_id==userid).first()
+    mood=db.session.query(MoodTable).filter(MoodTable.user_id==userid).first()
+    return render_template("users/profile.html",cycle=cycle,userid=userid,user=user,symptoms=symptoms,mood=mood)
 
 
-@app.route("/editprofile/<id>",methods=['post','get'])
-def edit_profile(id):
+
+
+@app.route("/addprofile/<id>",methods=['post','get'])
+def add_profile(id):
     if request.method =='GET':
-        deets=db.session.query(CycleEntry).filter(CycleEntry.entry_id==id).first_or_404()
-        return render_template("users/edit_cycle_profile.html",deets=deets)
+        deets=db.session.query(CycleEntry).filter(CycleEntry.entry_id==id).first()
+        return render_template("users/add_cycle_profile.html",deets=deets)
+    else: 
+        cycle_length=request.form.get('cycleLength')
+        period_length=request.form.get('periodLength')
+        lastperioddate=request.form.get('lastPeriod')
+        note=request.form.get('note')
+        c=CycleEntry(cyc_user_id=id, cycle_length=cycle_length,period_length=period_length,lastperioddate=lastperioddate,note=note)
+        symptoms=request.form.get('symptoms')
+        numbers=request.form.get('numbers')
+        daterecorded=request.form.get('daterecorded')
+        mood=request.form.get('mood')
+        moodSwing=request.form.get('moodSwing')
+        daterecord=request.form.get('daterecord')
+        db.session.add(c)
+        deets=db.session.query(CycleEntry).filter(CycleEntry.cyc_user_id==id).first()
+        s=SymptomsTracking(sys_user_id=id,symptom_type=symptoms,Severity=numbers,recorded_at=daterecorded)
+        db.session.add(s)
+        sub=db.session.query(SymptomsTracking).filter(SymptomsTracking.sys_user_id==id).first()
+        if moodSwing =='Yes':
+            m=MoodTable(mood_entry_id=deets.entry_id,mood_name=mood,mood_swing="1",date_recorded=daterecord,user_id=id,symptom_id=sub.symptom_id)
+        else:
+             m=MoodTable(mood_entry_id=deets.entry_id,mood_name=mood,mood_swing="0",date_recorded=daterecord,user_id=id,symptom_id=sub.symptom_id)
+        db.session.add(m)
+        db.session.commit()
+        flash('cycle was added',category='success')
+        return redirect(url_for('profile'))
+
+
+
+@app.route("/editprofile/<id>",methods=["POST","GET"])
+def edit_profile(id):
+    deets=db.session.query(CycleEntry).filter(CycleEntry.cyc_user_id==id).first()
+    symp=db.session.query(SymptomsTracking).filter(SymptomsTracking.sys_user_id==id).first()
+    mood=db.session.query(MoodTable).filter(MoodTable.user_id==id).first()
+    if request.method =='GET':
+        
+        return render_template("users/edit_cycle_profile.html",deets=deets,symp=symp,mood=mood)
     else:
-        cycle_2update =CycleEntry.query.get(id)
-        cycle_2update.cycle_length=request.form.get('cycleLength')
-        cycle_2update.period_length=request.form.get('periodLength')
-        cycle_2update.lastperioddate=request.form.get('lastPeriod')
-        cycle_2update.note=request.form.get('note')
-        # c=CycleEntry(cyc_user_id=id, cycle_length=cycle,period_length=period,lastperioddate=last,note=note)
-        # db.session.add(c)
+        cycle_2_update=CycleEntry.query.get(deets.entry_id)
+        symptom_2_update=SymptomsTracking.query.get(symp.symptom_id)
+        mood_2_update=MoodTable.query.get(mood.mood_id)
+        cycle_2_update.cycle_length=request.form.get('cycleLength')
+        cycle_2_update.period_length=request.form.get('periodLength')
+        cycle_2_update.lastperioddate=request.form.get('lastPeriod')
+        cycle_2_update.note=request.form.get('note')
+        symptom_2_update.symptom_type=request.form.get('symptoms')
+        symptom_2_update.Severity=request.form.get('numbers')
+        symptom_2_update.recorded_at=request.form.get('daterecorded')
+        mood_2_update.mood_name=request.form.get('mood')
+        moodSwing=request.form.get('moodSwing')
+        if moodSwing =='Yes':
+            newmood='1'
+        else:
+            newmood='0'
+        mood_2_update.mood_swing=newmood
+        mood_2_update.date_recorded=request.form.get('daterecord')
         db.session.commit()
         flash('cycle was updated',category='success')
         return redirect(url_for('profile'))
 
+
 @app.route("/edituser/<id>",methods=['post','get'])
 def edit_user(id):
+    deets=db.session.query(User).filter(User.user_id==id).first_or_404()
     if request.method =='GET':
-        deets=db.session.query(User).filter(User.user_id==id).first_or_404()
         return render_template("users/edit_profile.html",deets=deets)
     else:
         user_2update =User.query.get(id)
@@ -114,8 +168,82 @@ def edit_user(id):
         # c=CycleEntry(cyc_user_id=id, cycle_length=cycle,period_length=period,lastperioddate=last,note=note)
         # db.session.add(c)
         db.session.commit()
-        flash('cycle was updated',category='success')
+        flash('information was updated',category='success')
         return redirect(url_for('profile'))
+    
+
+@app.route("/changedp/",methods=['GET','POST'])
+def changedp():
+    id=session.get('userloggedin')
+    userdeets =db.session.query(User).get(id)
+    if request.method =="GET":
+        return render_template("users/changedp.html",userdeets=userdeets)
+    else:
+            pix= request.files.get('dp')
+            filename=pix.filename #we can rename to avaoid name clash
+            pix.save(app.config['USER_PROFILE_PATH']+filename)# this has been defined in config
+            userdeets.user_pix= filename
+            db.session.commit()
+            flash("Profile picture updated")
+            return redirect(url_for('dashboard'))
+    
+
+@app.route("/symptoms",methods=['GET','POST'])
+def Symptom():
+    return render_template("users/symptoms.html")
+
+
+@app.route("/mood",methods=['GET','POST'])
+def Mood():
+    return render_template("users/mood.html")
+
+@app.route("/family_planning",methods=['GET','POST'])
+def family_plan():
+    userid=session.get('userloggedin')
+    user=db.session.query(User).get(userid)
+    famplan=db.session.query(FamilyPlanning).filter(FamilyPlanning.user_id==userid).all()
+    return render_template("users/family_plan.html",famplan=famplan,user=user)
+
+@app.route("/add_family_planning/<id>",methods=['GET','POST'])
+def add_family_planning(id):
+    user=db.session.query(User).get(id)
+    if request.method =='GET':
+        plan=db.session.query(FamilyPlanning).filter(FamilyPlanning.user_id==id).all()
+        return render_template("users/add_family_planning.html",plan=plan,user=user)
+    else:
+        planning_type=request.form.get('planningtype')
+        start_date=request.form.get('start_date')
+        end_date=request.form.get('end_date')
+        f=FamilyPlanning(user_id=id,planning_type=planning_type,start_date=start_date,end_date=end_date)
+        db.session.add(f)
+        db.session.commit()
+        flash('family plan was added',category='success')
+        return redirect(url_for('family_plan'))
+
+
+@app.route("/medication",methods=['POST','GET'])
+def medications():
+    userid=session.get('userloggedin')
+    user=db.session.query(User).filter(User.user_id==userid).first()
+    med=db.session.query(Medication).filter(Medication.user_id==userid).first()
+    return render_template("users/medications.html",user=user,med=med)
+
+
+@app.route("/addmedication/<id>",methods=['GET','POST'])
+def add_medication(id):
+    meds=db.session.query(Medication).filter(Medication.user_id==id).first()
+    symp=db.session.query(SymptomsTracking).filter(SymptomsTracking.sys_user_id==id).first()
+    if request.method =='GET':
+        return render_template("users/add_medication.html",meds=meds,symp=symp)
+    else:
+       med_name=request.form.get('medication_name')
+       dosage=request.form.get('dosage')
+       taken_at=request.form.get('date_taken')
+       meed=Medication(symptom_id=symp.symptom_id,med_name=med_name,dosage=dosage,taken_at=taken_at,user_id=session['userloggedin'])
+       db.session.add(meed)
+       db.session.commit()
+       flash('Medication was added',category='success')
+       return redirect(url_for('medications'))
 
 @app.route("/calculator")
 def calculator():

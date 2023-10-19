@@ -24,12 +24,33 @@
                 <li><strong>Cycle Length:</strong>{{cycle.cycle_length}} days</li>
                 <li><strong>Last Period:</strong>{{cycle.lastperioddate}}</li>
             </ul>
+            {% if symptoms%}
+            <p><strong>Symptom:</strong>{{symptoms.symptom_type}}</p>
+            <p><strong>Severity:</strong>{{symptoms.Severity}}/10</p>
+            <p><strong>Daterecorded:</strong>{{symptoms.recorded_at}}</p>
+            {%else%}
+            <div class="alert alert-info">
+                <p>No Symptom Added</p>
+            </div>
+            {% endif %}
+            {% if mood %}
+            <p><strong>Mood Name:</strong>{{mood.mood_name}}</p>
+            <p><strong>Mood Swing:</strong>{%if mood.mood_swing=='1'%}Yes{%else%}No{%endif%}</p>
+            <p><strong>Daterecord:</strong>{{mood.date_recorded}}</p>
+            {%else%}
+            <div class="alert alert-info">
+                <p>No Mood Added</p>
+            </div>
+            {% endif %}
+            <a href="{{url_for('edit_profile',id=user.user_id)}}">Edit Cycle Info</a>
             {%else%}
             <div class="alert alert-info">
                 <p>No Cycle Information Yet</p>
             </div>
+            <a href="{{url_for('add_profile',id=user.user_id)}}">Add Cycle Info</a>
             {%endif%}
-            <a href="{{url_for('edit_profile',id=user.user_id)}}">Edit Cycle Info</a> <!-- Link to edit cycle info page -->
+            
+             <!-- Link to edit cycle info page -->
         </section>
     </main>
     

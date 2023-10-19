@@ -1,0 +1,30 @@
+{%extends "users/base.html"%}
+{% block title%}
+Add-medication
+{%endblock%}
+{%block content%}
+<div class="row">
+    <div class="col-md-12">
+        <h1>Family Planning Form</h1>
+        <form action="" method="post">
+            <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+        <!-- Plan Name -->
+        <label for="plan-name">Plan Name:</label>
+        <input type="text" id="plan-name" name="planningtype" class="form-control" required>
+        <br><br>
+
+        <!-- Start Date -->
+        <label for="start-date">Start Date:</label>
+        <input type="date" id="start-date" name="start_date" class="form-control" required>
+        <br><br>
+
+        <!-- End Date -->
+        <label for="end-date">End Date:</label>
+        <input type="date" id="end-date" name="end_date" class="form-control" required>
+        <br><br>
+
+        <button class="btn btn-dark">Submit</button>
+    </form>
+    </div>
+</div>
+{%endblock%}
