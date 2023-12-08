@@ -1,0 +1,33 @@
+{%extends "admin/admin_layout.html"%}
+{% block main%}
+<div class="row">
+    <div class="col-md-12">
+        {%if user%}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>S/N</th>
+                    <th>Username</th>
+                    <th>User Email</th>
+                    <th>Date Registered</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%for u in user%}
+                <tr>
+                    <td>{{loop.index}}</td>
+                    <td>{{u.user_username}}</td>
+                    <td>{{u.user_email}}</td>
+                    <td>{{u.user_datejoined}}</td>
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+        {%else%}
+        <div class="alert alert-info">
+            No registered user yet
+        </div>
+        {%endif%}
+    </div>
+</div>
+{%endblock%}

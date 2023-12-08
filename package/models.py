@@ -12,7 +12,6 @@ class User(db.Model):
     user_dob=db.Column(db.Date(),nullable=False) 
     user_height=db.Column(db.Integer,nullable=True)
     user_weight=db.Column(db.Integer,nullable=True)
-    user_pix=db.Column(db.String(120),nullable=True) 
     user_datejoined=db.Column(db.DateTime(), default=datetime.utcnow)#default
     #relationships
     userdeets=db.relationship('CycleEntry',back_populates='cycdeets',cascade='all, delete-orphan')
@@ -63,8 +62,9 @@ class MoodTable(db.Model):
 class Ovulation(db.Model):
     ovulation_id=db.Column(db.Integer(),autoincrement=True,primary_key=True)
     user_id=db.Column(db.Integer(),db.ForeignKey("user.user_id"),nullable=False)
-    start_date=db.Column(db.DateTime(), default=datetime.utcnow)
-    end_date=db.Column(db.DateTime(), default=datetime.utcnow)
+    start_date=db.Column(db.Date())
+    end_date=db.Column(db.Date())
+    next_period_start_date=db.Column(db.Date(), nullable=True)
     ovul_entry_id=db.Column(db.Integer,db.ForeignKey("cycle_entry.entry_id"),nullable=False)
     ovuldeets=db.relationship('User',back_populates='userovul')
     ovulcyc=db.relationship('CycleEntry',back_populates='cycovul')

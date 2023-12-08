@@ -5,23 +5,23 @@ medication
 {%block content%}
 <div class="row">
     <div class="col-md-12">
-        <h1>Medication Entry</h1>
+        <h4 style="text-align: center;">Medication Entry</h4>
         <form action="" method="post"> <!-- You can specify the action and method as needed -->
             <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
             <!-- Medication Name -->
-            <h1>Symptom:{{symp.symptom_type}}</h1>
+            <h5>Symptom:{{symp.symptom_type}}</h5>
             <label for="medication-name">Medication Name:</label>
-            <input type="text" id="medication-name" name="medication_name" required>
+            <input type="text" id="medication-name" name="medication_name" class="form-control" required>
             <br><br>
     
             <!-- Dosage -->
             <label for="dosage">Dosage(tablets):</label>
-            <input type="text" id="dosage" name="dosage" required>
+            <input type="text" id="dosage" name="dosage" class="form-control" required>
             <br><br>
     
             <!-- Date Taken -->
             <label for="date-taken">Date Taken:</label>
-            <input type="date" id="date-taken" name="date_taken" required>
+            <input type="date" id="date-taken" name="date_taken" class="form-control" required>
             <br><br>
     
             <button class="btn btn-dark">Submit</button>

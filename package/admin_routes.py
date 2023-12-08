@@ -1,8 +1,12 @@
+from functools import wraps
 from flask import render_template,abort,request,redirect,flash,url_for,session
 
 from package import app
-from package.models import db,Admin
+from package.models import db,Admin,User,FamilyPlanning
 from package.forms import *
+
+
+
 
 @app.route("/admin")
 def admin_page():
@@ -13,7 +17,7 @@ def admin_page():
     
 
 @app.route('/admin/login/',methods=['POST','GET'])
-def admn_login():
+def admin_login():
     if request.method=='GET':
         return render_template('admin/login.html')
     else:
@@ -46,3 +50,15 @@ def admin_logout():
         return redirect(url_for('admin_login'))
     else:
         return redirect(url_for('admin_login'))
+    
+@app.route('/familyplanning')
+def fam_plan():
+    fam=db.session.query(FamilyPlanning).all()
+    return render_template("admin/familyplanning.html",fam=fam)
+
+    
+@app.route('/allusers')
+
+def all_users():
+    user=db.session.query(User).all()
+    return render_template("admin/allusers.html",user=user)

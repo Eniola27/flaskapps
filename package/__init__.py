@@ -5,6 +5,9 @@ from flask_migrate import Migrate
 
 csrf=CSRFProtect()
 
+from .models import  *
+from .events import *
+from .utils import *
 
 def create_app():
     from package.models import db

@@ -1,9 +1,23 @@
+from functools import wraps
 from flask import render_template,abort,redirect,flash,make_response,url_for,session,request
 from werkzeug.security import generate_password_hash,check_password_hash 
+
+
 #localimports
 from package import app,csrf
 from package.models import *
 from package.forms import *
+
+
+def login_required(f):
+    @wraps(f)
+    def login_check(*args,**kwargs):
+        if session.get("userloggedin") !=None:
+            return f(*args,**kwargs)
+        else:
+            flash("Access Denied")
+            return redirect("/login")
+    return  login_check
 
 
 @app.route("/home")
@@ -12,6 +26,7 @@ def home():
     return render_template("users/index.html")
 
 @app.route("/login/",methods=['POST','GET'])
+
 def login():
     #abort (403)
     if request.method=='GET':
@@ -68,6 +83,7 @@ def about_page():
     return render_template("users/about.html")                    
 
 @app.route("/dashboard")
+@login_required
 def dashboard():
     if session.get('userloggedin') ==None:
         flash("You must be logged in to view this page")
@@ -78,6 +94,7 @@ def dashboard():
         return render_template('users/dashboard.html',user=user) 
 
 @app.route("/profile",methods=['POST','GET'])
+@login_required
 def profile():
     userid=session.get('userloggedin')
     user=db.session.query(User).filter(User.user_id==userid).first()
@@ -90,6 +107,7 @@ def profile():
 
 
 @app.route("/addprofile/<id>",methods=['post','get'])
+@login_required
 def add_profile(id):
     if request.method =='GET':
         deets=db.session.query(CycleEntry).filter(CycleEntry.entry_id==id).first()
@@ -123,6 +141,7 @@ def add_profile(id):
 
 
 @app.route("/editprofile/<id>",methods=["POST","GET"])
+@login_required
 def edit_profile(id):
     deets=db.session.query(CycleEntry).filter(CycleEntry.cyc_user_id==id).first()
     symp=db.session.query(SymptomsTracking).filter(SymptomsTracking.sys_user_id==id).first()
@@ -155,6 +174,7 @@ def edit_profile(id):
 
 
 @app.route("/edituser/<id>",methods=['post','get'])
+@login_required
 def edit_user(id):
     deets=db.session.query(User).filter(User.user_id==id).first_or_404()
     if request.method =='GET':
@@ -189,15 +209,18 @@ def changedp():
     
 
 @app.route("/symptoms",methods=['GET','POST'])
+@login_required
 def Symptom():
     return render_template("users/symptoms.html")
 
 
 @app.route("/mood",methods=['GET','POST'])
+@login_required
 def Mood():
     return render_template("users/mood.html")
 
 @app.route("/family_planning",methods=['GET','POST'])
+@login_required
 def family_plan():
     userid=session.get('userloggedin')
     user=db.session.query(User).get(userid)
@@ -205,6 +228,7 @@ def family_plan():
     return render_template("users/family_plan.html",famplan=famplan,user=user)
 
 @app.route("/add_family_planning/<id>",methods=['GET','POST'])
+@login_required
 def add_family_planning(id):
     user=db.session.query(User).get(id)
     if request.method =='GET':
@@ -222,6 +246,7 @@ def add_family_planning(id):
 
 
 @app.route("/medication",methods=['POST','GET'])
+@login_required
 def medications():
     userid=session.get('userloggedin')
     user=db.session.query(User).filter(User.user_id==userid).first()
@@ -230,6 +255,7 @@ def medications():
 
 
 @app.route("/addmedication/<id>",methods=['GET','POST'])
+@login_required
 def add_medication(id):
     meds=db.session.query(Medication).filter(Medication.user_id==id).first()
     symp=db.session.query(SymptomsTracking).filter(SymptomsTracking.sys_user_id==id).first()
@@ -245,14 +271,12 @@ def add_medication(id):
        flash('Medication was added',category='success')
        return redirect(url_for('medications'))
 
-@app.route("/calculator")
-def calculator():
-    return render_template("users/calculator.html")
-
 
 @app.route("/calendar")
+@login_required
 def calendar():
-    return render_template("users/calendar.html")
+    ovulation=db.session.query(Ovulation).filter(Ovulation.user_id==session['userloggedin']).first()
+    return render_template("users/calendar.html", ovulation= ovulation)
 
 @app.errorhandler(404)
 def page_not_found(error):

@@ -2,19 +2,18 @@
 {%block content%}
      
 <div class="content" style="background-color: white;padding:3em">
-  <h3>Change Your Profile Picture:</h3>
-  <p>Upload a new profile picture:</p>
+  <h3>Change Your Profile Picture</h3>
   <form enctype="multipart/form-data",methods="post">
-    <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
-    {% if dp.errors %}
-        <div class="alert alert-danger">{{dp.errors}}</div>
+    {{ dpform.csrf_token }}
+    {% if dpform.dp.errors %}
+        <div class="alert alert-danger">{{dpform.dp.errors}}</div>
     {%endif%}
     <div class="mb-3">
-        {{ dp.label}}
-        {{dp}}
+        {{ dpform.dp.label}}
+        {{ dpform.dp}}
     </div>
     <div class="mb-3">
-        {{ btnupload(class_='btn btn-warning noround')}}
+        {{ dpform.btnupload(class_='btn btn-warning noround')}}
     </div>
   </form>
  </div>
